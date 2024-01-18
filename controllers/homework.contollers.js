@@ -1,0 +1,100 @@
+const mongoose = require('mongoose');
+const _ = require('lodash');
+const { division } = require('../models/division.model');
+const { standard } = require('../models/standard.model');
+const { staff } = require('../models/staff.model');
+const { homework, validationHomework } = require('../models/homework.model');
+const { notice, validationNotice } = require('../models/notice.model');
+const { sendError, sendResponse } = require('../utils/response');
+
+
+// add homework
+exports.addHomework = async (req, res) => {
+    try {
+        const { error } = validationHomework(req.body);
+        if (error) return res.status(400).json(sendError(res, 400, error.message));
+
+        const checkStandard = await standard.findById(req.body.standardId)
+        if (!checkStandard) return sendError(res, 404, "Standard not found");
+
+        const checkDivision = await division.findById(req.body.divisionId)
+        if (!checkDivision) return sendError(res, 404, "Division not found");
+
+        const homeworkData = new homework({ ...req.body });
+
+        await homeworkData.save();
+
+        sendResponse(res, 200, "Homework add successfully", homeworkData);
+    } catch (error) {
+        sendError(res, 400, error.message)
+    }
+}
+
+// add notice
+exports.addNotice = async (req, res) => {
+    try {
+        const { error } = validationNotice(req.body);
+        if (error) return res.status(400).json(sendError(res, 400, error.message));
+
+        const checkStandard = await standard.findById(req.body.standardId)
+        if (!checkStandard) return sendError(res, 404, "Standard not found");
+
+        const sendByFactulyId = await staff.findById(req.body.sendByFactulyId)
+        if (!sendByFactulyId) return sendError(res, 404, "Saff not found");
+
+        const noticeData = new notice({ ...req.body });
+
+        await noticeData.save();
+
+        sendResponse(res, 200, "Notice add successfully", noticeData);
+    } catch (error) {
+        sendError(res, 400, error.message)
+    }
+}
+
+//edit homework
+exports.editHomework = async (req, res) => {
+    try {
+        const editHomework = await homework.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
+
+        sendResponse(res, 200, "Homework edit successfully", editHomework);
+    } catch (error) {
+        sendError(res, 400, error.message);
+    }
+}
+
+// edit notice
+exports.editNotice = async (req, res) => {
+    try {
+        const editNotice = await homework.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
+
+        sendResponse(res, 200, "Notice edit successfully", editNotice);
+    } catch (error) {
+        sendError(res, 400, error.message)
+    }
+}
+
+// homework delete
+exports.homeworkDelete = async (req, res) => {
+    try {
+        const homeworkData = await homework.findByIdAndDelete(req.body.Id);
+
+        sendResponse(res, 200, 'Homework Delete');
+    } catch (error) {
+        sendError(res, 400, error.message)
+    }
+}
+
+// notice delete
+exports.noticeDelete = async (req, res) => {
+    try {
+        const noticeData = await notice.findByIdAndDelete(req.body.Id);
+
+        sendResponse(res, 200, 'Notice Delete');
+    } catch (error) {
+        sendError(res, 400, error.message)
+    }
+}
+
+
+
