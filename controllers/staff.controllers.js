@@ -8,7 +8,7 @@ const { sendError, sendResponse } = require('../utils/response');
 exports.addStaff = async (req, res) => {
     try {
         const { error } = validationStaff(req.body);
-        if (error) return res.status(400).json(sendError(res, 400, error.message));
+        if (error) return res.status(0).json(sendError(res, 0, error.message));
 
         req.body.image = req.file.path;
 
@@ -16,9 +16,9 @@ exports.addStaff = async (req, res) => {
 
         await staffData.save();
 
-        sendResponse(res, 200, 'Staff added successfully', staffData);
+        sendResponse(res, 1, 'Staff added successfully', staffData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -34,9 +34,9 @@ exports.editStaff = async (req, res) => {
             editSatff = await staff.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true })
         }
 
-        sendResponse(res, 200, 'Staff edit successfully', editSatff);
+        sendResponse(res, 1, 'Staff edit successfully', editSatff);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -45,9 +45,9 @@ exports.staffList = async (req, res) => {
     try {
         const staffData = await staff.find();
 
-        sendResponse(res, 200, 'Satff list', staffData);
+        sendResponse(res, 1, 'Satff list', staffData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -57,9 +57,9 @@ exports.staffOneData = async (req, res) => {
     try {
         const staffData = await staff.findById(req.body.Id);
 
-        sendResponse(res, 200, 'Staff list', staffData);
+        sendResponse(res, 1, 'Staff list', staffData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -69,8 +69,8 @@ exports.staffDelete = async (req, res) => {
         console.log(req.body.Id)
         const staffData = await staff.findByIdAndDelete(req.body.Id);
 
-        sendResponse(res, 200, 'Staff Delete');
+        sendResponse(res, 1, 'Staff Delete');
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }

@@ -1,5 +1,5 @@
 exports.sendResponse = (res, status, message, data = null) => {
-    res.json({
+    res.status(200).json({
         status: status,
         message: message,
         data: data
@@ -7,7 +7,7 @@ exports.sendResponse = (res, status, message, data = null) => {
 };
 
 exports.sendError = (res, status, errorMessage) => {
-    res.json({
+    res.status(400).json({
         status: status,
         error: errorMessage
     })

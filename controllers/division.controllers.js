@@ -16,9 +16,9 @@ exports.addDivision = async (req, res) => {
 
         await divisionData.save();
 
-        sendResponse(res, 200, 'Division added successfully', divisionData);
+        sendResponse(res, 1, 'Division added successfully', divisionData);
     } catch (error) {
-        res.status(400).json(sendError(res, 400, error.message))
+       sendError(res, 0, error.message)
     }
 }
 
@@ -27,9 +27,9 @@ exports.editDivision = async (req, res) => {
     try {
         const editDivision = await division.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        sendResponse(res, 200, ' Division edit successfully', editDivision);
+        sendResponse(res, 1, ' Division edit successfully', editDivision);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -38,9 +38,9 @@ exports.divisionList = async (req, res) => {
     try {
         const divisionData = await division.find();
 
-        sendResponse(res, 200, ' Division list', divisionData);
+        sendResponse(res, 1, ' Division list', divisionData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -50,9 +50,9 @@ exports.divisionOneData = async (req, res) => {
     try {
         const divisionData = await division.findById(req.body.Id);
 
-        sendResponse(res, 200, ' division list', divisionData);
+        sendResponse(res, 1, ' division list', divisionData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -61,8 +61,8 @@ exports.divisionDelete = async (req, res) => {
     try {
         const divisionData = await division.findByIdAndDelete(req.body.Id);
 
-        sendResponse(res, 200, 'division Delete');
+        sendResponse(res, 1, 'division Delete');
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }

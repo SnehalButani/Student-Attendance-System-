@@ -8,15 +8,15 @@ const { sendError, sendResponse } = require('../utils/response');
 exports.addStandard = async (req, res) => {
     try {
         const { error } = validationStandard(req.body);
-        if (error) return res.status(400).json(sendError(res, 400, error.message));
+        if (error) return res.json(sendError(res, 0, error.message));
 
         const standardData = new standard({ ...req.body });
 
         await standardData.save();
 
-        sendResponse(res, 200, 'Standard added successfully', standardData);
+        sendResponse(res, 1, 'Standard added successfully', standardData);
     } catch (error) {
-        res.status(400).json(sendError(res, 400, error.message))
+        sendError(res, 0, error.message)
     }
 }
 
@@ -25,9 +25,9 @@ exports.editStandard = async (req, res) => {
     try {
         const editStandard = await standard.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        sendResponse(res, 200, ' Standard edit successfully', editStandard);
+        sendResponse(res, 1, ' Standard edit successfully', editStandard);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -36,9 +36,9 @@ exports.standardList = async (req, res) => {
     try {
         const standardData = await standard.find();
 
-        sendResponse(res, 200, ' Standard list', standardData);
+        sendResponse(res, 1, ' Standard list', standardData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -48,9 +48,9 @@ exports.standardOneData = async (req, res) => {
     try {
         const standardData = await standard.findById(req.body.Id);
 
-        sendResponse(res, 200, ' Standard list', standardData);
+        sendResponse(res, 1, ' Standard list', standardData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -59,8 +59,8 @@ exports.standardDelete = async (req, res) => {
     try {
         const standardData = await standard.findByIdAndDelete(req.body.Id);
 
-        sendResponse(res, 200, 'Standard Delete');
+        sendResponse(res, 1, 'Standard Delete');
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }

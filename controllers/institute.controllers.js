@@ -7,15 +7,15 @@ const { sendError, sendResponse } = require('../utils/response');
 exports.addInstitute = async (req, res) => {
     try {
         const { error } = validationInstitute(req.body);
-        if (error) return res.status(400).json(sendError(res, 400, error.message));
+        if (error) return res.status(0).json(sendError(res, 0, error.message));
 
         const instituteData = new institute({ ...req.body });
       
         await instituteData.save();
 
-        sendResponse(res, 200, 'Institute added successfully', instituteData);
+        sendResponse(res, 1, 'Institute added successfully', instituteData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -25,9 +25,9 @@ exports.editInstitute = async (req,res) => {
     try {
         const editInstitute = await institute.findByIdAndUpdate(req.body.Id,{...req.body},{new:true});
 
-        sendResponse(res, 200, 'Institute edit successfully', editInstitute);
+        sendResponse(res, 1, 'Institute edit successfully', editInstitute);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -36,9 +36,9 @@ exports.instituteList = async (req,res) => {
     try {
         const instituteData = await institute.find();
 
-        sendResponse(res, 200, 'Institute list', instituteData);
+        sendResponse(res, 1, 'Institute list', instituteData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -48,9 +48,9 @@ exports.instituteOneData = async (req,res) => {
     try {
         const instituteData = await institute.findById(req.body.Id);
 
-        sendResponse(res, 200, 'Institute list', instituteData);
+        sendResponse(res, 1, 'Institute list', instituteData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -59,8 +59,8 @@ exports.instituteDelete = async (req,res) => {
     try {
         const instituteData = await institute.findByIdAndDelete(req.body.Id);
 
-        sendResponse(res, 200, 'Institute Delete');
+        sendResponse(res, 1, 'Institute Delete');
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }

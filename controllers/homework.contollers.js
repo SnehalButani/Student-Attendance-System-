@@ -12,21 +12,21 @@ const { sendError, sendResponse } = require('../utils/response');
 exports.addHomework = async (req, res) => {
     try {
         const { error } = validationHomework(req.body);
-        if (error) return res.status(400).json(sendError(res, 400, error.message));
+        if (error) return res.status(0).json(sendError(res, 0, error.message));
 
         const checkStandard = await standard.findById(req.body.standardId)
-        if (!checkStandard) return sendError(res, 404, "Standard not found");
+        if (!checkStandard) return sendError(res, 414, "Standard not found");
 
         const checkDivision = await division.findById(req.body.divisionId)
-        if (!checkDivision) return sendError(res, 404, "Division not found");
+        if (!checkDivision) return sendError(res, 414, "Division not found");
 
         const homeworkData = new homework({ ...req.body });
 
         await homeworkData.save();
 
-        sendResponse(res, 200, "Homework add successfully", homeworkData);
+        sendResponse(res, 1, "Homework add successfully", homeworkData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -34,21 +34,21 @@ exports.addHomework = async (req, res) => {
 exports.addNotice = async (req, res) => {
     try {
         const { error } = validationNotice(req.body);
-        if (error) return res.status(400).json(sendError(res, 400, error.message));
+        if (error) return res.status(0).json(sendError(res, 0, error.message));
 
         const checkStandard = await standard.findById(req.body.standardId)
-        if (!checkStandard) return sendError(res, 404, "Standard not found");
+        if (!checkStandard) return sendError(res, 414, "Standard not found");
 
         const sendByFactulyId = await staff.findById(req.body.sendByFactulyId)
-        if (!sendByFactulyId) return sendError(res, 404, "Saff not found");
+        if (!sendByFactulyId) return sendError(res, 414, "Saff not found");
 
         const noticeData = new notice({ ...req.body });
 
         await noticeData.save();
 
-        sendResponse(res, 200, "Notice add successfully", noticeData);
+        sendResponse(res, 1, "Notice add successfully", noticeData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -57,9 +57,9 @@ exports.editHomework = async (req, res) => {
     try {
         const editHomework = await homework.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        sendResponse(res, 200, "Homework edit successfully", editHomework);
+        sendResponse(res, 1, "Homework edit successfully", editHomework);
     } catch (error) {
-        sendError(res, 400, error.message);
+        sendError(res, 0, error.message);
     }
 }
 
@@ -68,9 +68,9 @@ exports.editNotice = async (req, res) => {
     try {
         const editNotice = await homework.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        sendResponse(res, 200, "Notice edit successfully", editNotice);
+        sendResponse(res, 1, "Notice edit successfully", editNotice);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -79,9 +79,9 @@ exports.homeworkDelete = async (req, res) => {
     try {
         const homeworkData = await homework.findByIdAndDelete(req.body.Id);
 
-        sendResponse(res, 200, 'Homework Delete');
+        sendResponse(res, 1, 'Homework Delete');
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -90,9 +90,9 @@ exports.noticeDelete = async (req, res) => {
     try {
         const noticeData = await notice.findByIdAndDelete(req.body.Id);
 
-        sendResponse(res, 200, 'Notice Delete');
+        sendResponse(res, 1, 'Notice Delete');
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 

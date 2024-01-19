@@ -8,15 +8,15 @@ const { sendError, sendResponse } = require('../utils/response');
 exports.addStudent = async (req, res) => {
     try {
         const { error } = validationStudent(req.body);
-        if (error) return res.status(400).json(sendError(res, 400, error.message));
+        if (error) return res.status(0).json(sendError(res, 0, error.message));
 
         const studentData = new student({ ...req.body });
 
         await studentData.save();
 
-        sendResponse(res, 200, 'Student added successfully', studentData);
+        sendResponse(res, 1, 'Student added successfully', studentData);
     } catch (error) {
-        res.status(400).json(sendError(res, 400, error.message))
+        sendError(res, 0, error.message)
     }
 }
 
@@ -25,9 +25,9 @@ exports.editStudent = async (req, res) => {
     try {
         const editStudent = await student.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        sendResponse(res, 200, 'Student edit successfully', editStudent);
+        sendResponse(res, 1, 'Student edit successfully', editStudent);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -36,9 +36,9 @@ exports.studentList = async (req, res) => {
     try {
         const studentData = await student.find();
 
-        sendResponse(res, 200, 'Student list', studentData);
+        sendResponse(res, 1, 'Student list', studentData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -48,9 +48,9 @@ exports.studentOneData = async (req,res) => {
     try {
         const studentData = await student.findById(req.body.Id);
 
-        sendResponse(res, 200, 'Student list', studentData);
+        sendResponse(res, 1, 'Student list', studentData);
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
 
@@ -59,8 +59,8 @@ exports.studentDelete = async (req,res) => {
     try {
         const studentData = await student.findByIdAndDelete(req.body.Id);
 
-        sendResponse(res, 200, 'Student Delete');
+        sendResponse(res, 1, 'Student Delete');
     } catch (error) {
-        sendError(res, 400, error.message)
+        sendError(res, 0, error.message)
     }
 }
