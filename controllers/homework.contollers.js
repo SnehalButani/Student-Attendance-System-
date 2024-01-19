@@ -37,10 +37,10 @@ exports.addNotice = async (req, res) => {
         if (error) return res.status(0).json(sendError(res, 0, error.message));
 
         const checkStandard = await standard.findById(req.body.standardId)
-        if (!checkStandard) return sendError(res, 414, "Standard not found");
+        if (!checkStandard) return sendError(res, 0, "Standard not found");
 
         const sendByFactulyId = await staff.findById(req.body.sendByFactulyId)
-        if (!sendByFactulyId) return sendError(res, 414, "Saff not found");
+        if (!sendByFactulyId) return sendError(res, 0, "Saff not found");
 
         const noticeData = new notice({ ...req.body });
 
