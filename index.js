@@ -11,7 +11,7 @@ const homework = require('./routes/homework.routes');
 const event = require('./routes/event.routes');
 
 app.get('/', (req, res) => {
-    res.send('Hello world');
+    res.send('Student Attendance System');
 });
 
 app.use('/uploads', express.static('uploads'));
