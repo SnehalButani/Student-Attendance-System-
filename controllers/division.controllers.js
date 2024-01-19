@@ -8,7 +8,6 @@ const { sendError, sendResponse } = require('../utils/response');
 // add division
 exports.addDivision = async (req, res) => {
     try {
-
         const checkStandard = await standard.findById(req.body.standardId)
         if(!checkStandard) return sendError(res,404,"Standard not found"); 
 
