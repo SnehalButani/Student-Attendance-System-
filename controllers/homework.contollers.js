@@ -15,10 +15,10 @@ exports.addHomework = async (req, res) => {
         if (error) return res.status(0).json(sendError(res, 0, error.message));
 
         const checkStandard = await standard.findById(req.body.standardId)
-        if (!checkStandard) return sendError(res, 414, "Standard not found");
+        if (!checkStandard) return sendError(res, 0, "Standard not found");
 
         const checkDivision = await division.findById(req.body.divisionId)
-        if (!checkDivision) return sendError(res, 414, "Division not found");
+        if (!checkDivision) return sendError(res, 0, "Division not found");
 
         const homeworkData = new homework({ ...req.body });
 
