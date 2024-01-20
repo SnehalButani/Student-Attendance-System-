@@ -11,7 +11,7 @@ exports.addStaff = async (req, res) => {
         if (error) return res.status(0).json(sendError(res, 0, error.message));
 
         req.body.image = req.file.path;
-
+        console.log(req.body.image)
         const staffData = new staff({ ...req.body });
 
         await staffData.save();
