@@ -12,6 +12,7 @@ const storage = multer.diskStorage({
         const uploadPath = 'uploads/images';
         fs.mkdirSync(uploadPath, { recursive: true });
         cb(null, uploadPath);
+        console.log("ok")
     },
     filename: function (req, file, cb) {
         const fileExtension = path.extname(file.originalname);
