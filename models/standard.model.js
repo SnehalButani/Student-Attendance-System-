@@ -5,8 +5,7 @@ const Joi = require('joi');
 const standardSchema = new Schema({
     standardName: {
         type: String,
-        enum: ["FYBCA", "SYBCA", "TYBCA"],
-        default: "FYBCA"
+        default:null
     },
     educationYear: {
         type: String,

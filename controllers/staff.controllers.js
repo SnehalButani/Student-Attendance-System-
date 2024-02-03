@@ -9,7 +9,7 @@ exports.addStaff = async (req, res) => {
     try {
         const { error } = validationStaff(req.body);
         if (error) return res.status(0).json(sendError(res, 0, error.message));
-        sendError(res,1,req.body);
+
         req.body.image = req.file.path;
     
         const staffData = new staff({ ...req.body });
