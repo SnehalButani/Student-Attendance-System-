@@ -16,7 +16,7 @@ const eventSchema = new Schema({
     }
 }, { timestamps: true });
 
-const event = mongoose.model('event', eventSchema);
+const Event = mongoose.model('event', eventSchema);
 
 function validationEvent(req) {
     const Schema = Joi.object({
@@ -28,5 +28,5 @@ function validationEvent(req) {
 }
 
 
-exports.event = event;
+exports.Event = Event;
 exports.validationEvent = validationEvent;
