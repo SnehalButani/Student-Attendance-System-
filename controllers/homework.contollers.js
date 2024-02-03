@@ -8,23 +8,29 @@ const { notice, validationNotice } = require('../models/notice.model');
 const { sendError, sendResponse } = require('../utils/response');
 
 
-// add homework
+// add homework 
 exports.addHomework = async (req, res) => {
     try {
-        const { error } = validationHomework(req.body);
-        if (error) return res.status(0).json(sendError(res, 0, error.message));
+        if (req.body.Id) {
+            const editHomework = await homework.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        const checkStandard = await standard.findById(req.body.standardId)
-        if (!checkStandard) return sendError(res, 0, "Standard not found");
+            sendResponse(res, 1, "Homework edit successfully", editHomework);
+        } else {
+            const { error } = validationHomework(req.body);
+            if (error) return res.status(0).json(sendError(res, 0, error.message));
 
-        const checkDivision = await division.findById(req.body.divisionId)
-        if (!checkDivision) return sendError(res, 0, "Division not found");
+            const checkStandard = await standard.findById(req.body.standardId)
+            if (!checkStandard) return sendError(res, 0, "Standard not found");
 
-        const homeworkData = new homework({ ...req.body });
+            const checkDivision = await division.findById(req.body.divisionId)
+            if (!checkDivision) return sendError(res, 0, "Division not found");
 
-        await homeworkData.save();
+            const homeworkData = new homework({ ...req.body });
 
-        sendResponse(res, 1, "Homework add successfully", homeworkData);
+            await homeworkData.save();
+
+            sendResponse(res, 1, "Homework add successfully", homeworkData);
+        }
     } catch (error) {
         sendError(res, 0, error.message)
     }
@@ -33,42 +39,27 @@ exports.addHomework = async (req, res) => {
 // add notice
 exports.addNotice = async (req, res) => {
     try {
-        const { error } = validationNotice(req.body);
-        if (error) return res.status(0).json(sendError(res, 0, error.message));
+        if (req.body.Id) {
+            const editNotice = await homework.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        const checkStandard = await standard.findById(req.body.standardId)
-        if (!checkStandard) return sendError(res, 0, "Standard not found");
+            sendResponse(res, 1, "Notice edit successfully", editNotice);
+        } else {
+            const { error } = validationNotice(req.body);
+            if (error) return res.status(0).json(sendError(res, 0, error.message));
 
-        const sendByFactulyId = await staff.findById(req.body.sendByFactulyId)
-        if (!sendByFactulyId) return sendError(res, 0, "Saff not found");
+            const checkStandard = await standard.findById(req.body.standardId)
+            if (!checkStandard) return sendError(res, 0, "Standard not found");
 
-        const noticeData = new notice({ ...req.body });
+            const sendByFactulyId = await staff.findById(req.body.sendByFactulyId)
+            if (!sendByFactulyId) return sendError(res, 0, "Saff not found");
 
-        await noticeData.save();
+            const noticeData = new notice({ ...req.body });
 
-        sendResponse(res, 1, "Notice add successfully", noticeData);
-    } catch (error) {
-        sendError(res, 0, error.message)
-    }
-}
+            await noticeData.save();
 
-//edit homework
-exports.editHomework = async (req, res) => {
-    try {
-        const editHomework = await homework.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
+            sendResponse(res, 1, "Notice add successfully", noticeData);
+        }
 
-        sendResponse(res, 1, "Homework edit successfully", editHomework);
-    } catch (error) {
-        sendError(res, 0, error.message);
-    }
-}
-
-// edit notice
-exports.editNotice = async (req, res) => {
-    try {
-        const editNotice = await homework.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
-
-        sendResponse(res, 1, "Notice edit successfully", editNotice);
     } catch (error) {
         sendError(res, 0, error.message)
     }

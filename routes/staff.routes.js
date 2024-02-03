@@ -22,7 +22,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post('/addstaff', upload.single('image'), addStaff);
-router.post('/editstaff', upload.single('image'), editStaff);
 router.post('/stafflist', staffList);
 router.post('/staffonedata', staffOneData);
 router.post('/staffdelete', staffDelete);

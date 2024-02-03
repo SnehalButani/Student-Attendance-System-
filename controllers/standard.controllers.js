@@ -4,28 +4,23 @@ const { standard, validationStandard } = require('../models/standard.model');
 const { sendError, sendResponse } = require('../utils/response');
 
 
-// add standard
+// add standard or edit standard
 exports.addStandard = async (req, res) => {
     try {
-        const { error } = validationStandard(req.body);
-        if (error) return res.json(sendError(res, 0, error.message));
+        if (req.body._id) {
+            const editStandard = await standard.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        const standardData = new standard({ ...req.body });
+            sendResponse(res, 1, ' Standard edit successfully', editStandard);
+        } else {
+            const { error } = validationStandard(req.body);
+            if (error) return res.json(sendError(res, 0, error.message));
 
-        await standardData.save();
+            const standardData = new standard({ ...req.body });
 
-        sendResponse(res, 1, 'Standard added successfully', standardData);
-    } catch (error) {
-        sendError(res, 0, error.message)
-    }
-}
+            await standardData.save();
 
-// edit standard
-exports.editStandard = async (req, res) => {
-    try {
-        const editStandard = await standard.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
-
-        sendResponse(res, 1, ' Standard edit successfully', editStandard);
+            sendResponse(res, 1, 'Standard added successfully', standardData);
+        }
     } catch (error) {
         sendError(res, 0, error.message)
     }

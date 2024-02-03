@@ -4,28 +4,23 @@ const { student, validationStudent } = require('../models/student.model');
 const { sendError, sendResponse } = require('../utils/response');
 
 
-// add student
+// add student or edit student
 exports.addStudent = async (req, res) => {
     try {
-        const { error } = validationStudent(req.body);
-        if (error) return res.status(0).json(sendError(res, 0, error.message));
+        if (req.body.Id) {
+            const editStudent = await student.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        const studentData = new student({ ...req.body });
+            sendResponse(res, 1, 'Student edit successfully', editStudent);
+        } else {
+            const { error } = validationStudent(req.body);
+            if (error) return res.status(0).json(sendError(res, 0, error.message));
 
-        await studentData.save();
+            const studentData = new student({ ...req.body });
 
-        sendResponse(res, 1, 'Student added successfully', studentData);
-    } catch (error) {
-        sendError(res, 0, error.message)
-    }
-}
+            await studentData.save();
 
-// edit student
-exports.editStudent = async (req, res) => {
-    try {
-        const editStudent = await student.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
-
-        sendResponse(res, 1, 'Student edit successfully', editStudent);
+            sendResponse(res, 1, 'Student added successfully', studentData);
+        }
     } catch (error) {
         sendError(res, 0, error.message)
     }
@@ -44,7 +39,7 @@ exports.studentList = async (req, res) => {
 
 
 // student Object on id
-exports.studentOneData = async (req,res) => {
+exports.studentOneData = async (req, res) => {
     try {
         const studentData = await student.findById(req.body.Id);
 
@@ -55,7 +50,7 @@ exports.studentOneData = async (req,res) => {
 }
 
 // student delete
-exports.studentDelete = async (req,res) => {
+exports.studentDelete = async (req, res) => {
     try {
         const studentData = await student.findByIdAndDelete(req.body.Id);
 

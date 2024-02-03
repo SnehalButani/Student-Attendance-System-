@@ -1,32 +1,27 @@
 const mongoose = require('mongoose');
 const _ = require('lodash');
-const { division  } = require('../models/division.model');
-const { standard  } = require('../models/standard.model');
+const { division } = require('../models/division.model');
+const { standard } = require('../models/standard.model');
 const { sendError, sendResponse } = require('../utils/response');
 
 
 // add division
 exports.addDivision = async (req, res) => {
     try {
-        const checkStandard = await standard.findById(req.body.standardId)
-        if(!checkStandard) return sendError(res,404,"Standard not found"); 
+        if (req.body.Id) {
+            const editDivision = await division.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        const divisionData = new division({ ...req.body });
+            sendResponse(res, 1, ' Division edit successfully', editDivision);
+        } else {
+            const checkStandard = await standard.findById(req.body.standardId)
+            if (!checkStandard) return sendError(res, 404, "Standard not found");
 
-        await divisionData.save();
+            const divisionData = new division({ ...req.body });
 
-        sendResponse(res, 1, 'Division added successfully', divisionData);
-    } catch (error) {
-       sendError(res, 0, error.message)
-    }
-}
+            await divisionData.save();
 
-// edit division
-exports.editDivision = async (req, res) => {
-    try {
-        const editDivision = await division.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
-
-        sendResponse(res, 1, ' Division edit successfully', editDivision);
+            sendResponse(res, 1, 'Division added successfully', divisionData);
+        }
     } catch (error) {
         sendError(res, 0, error.message)
     }

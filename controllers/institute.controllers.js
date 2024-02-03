@@ -6,33 +6,27 @@ const { sendError, sendResponse } = require('../utils/response');
 // add institute
 exports.addInstitute = async (req, res) => {
     try {
-        const { error } = validationInstitute(req.body);
-        if (error) return res.status(0).json(sendError(res, 0, error.message));
+        if (req.body.Id) {
+            const editInstitute = await institute.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
-        const instituteData = new institute({ ...req.body });
-      
-        await instituteData.save();
+            sendResponse(res, 1, 'Institute edit successfully', editInstitute);
+        } else {
+            const { error } = validationInstitute(req.body);
+            if (error) return res.status(0).json(sendError(res, 0, error.message));
 
-        sendResponse(res, 1, 'Institute added successfully', instituteData);
-    } catch (error) {
-        sendError(res, 0, error.message)
-    }
-}
+            const instituteData = new institute({ ...req.body });
 
+            await instituteData.save();
 
-// edit institute
-exports.editInstitute = async (req,res) => {
-    try {
-        const editInstitute = await institute.findByIdAndUpdate(req.body.Id,{...req.body},{new:true});
-
-        sendResponse(res, 1, 'Institute edit successfully', editInstitute);
+            sendResponse(res, 1, 'Institute added successfully', instituteData);
+        }
     } catch (error) {
         sendError(res, 0, error.message)
     }
 }
 
 // institute list
-exports.instituteList = async (req,res) => {
+exports.instituteList = async (req, res) => {
     try {
         const instituteData = await institute.find();
 
@@ -44,7 +38,7 @@ exports.instituteList = async (req,res) => {
 
 
 // institute Object on id
-exports.instituteOneData = async (req,res) => {
+exports.instituteOneData = async (req, res) => {
     try {
         const instituteData = await institute.findById(req.body.Id);
 
@@ -55,7 +49,7 @@ exports.instituteOneData = async (req,res) => {
 }
 
 // institute delete
-exports.instituteDelete = async (req,res) => {
+exports.instituteDelete = async (req, res) => {
     try {
         const instituteData = await institute.findByIdAndDelete(req.body.Id);
 
