@@ -28,7 +28,7 @@ function validationStandard(req) {
     const Schema = Joi.object({
         standardName: Joi.string().required(),
         educationYear: Joi.string().required(),
-        couresId : Joi.string().hex().length(24),
+        couresId : Joi.string().hex().length(24).required(),
         isAvailable: Joi.boolean().default(true)
     });
     return Schema.validate(req);
