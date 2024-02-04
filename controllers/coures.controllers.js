@@ -6,7 +6,7 @@ const { sendError, sendResponse } = require('../utils/response');
 // add coures or edit coures
 exports.addCoures = async (req, res) => {
     try {
-        if (req.body._id) {
+        if (req.body.Id) {
             const editCoures = await coures.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
             sendResponse(res, 1, 'Coures edit successfully', editCoures);
@@ -30,7 +30,7 @@ exports.couresList = async (req, res) => {
     try {
         const couresData = await coures.find();
 
-        sendResponse(res, 1, ' coures list', couresData);
+        sendResponse(res, 1, 'Coures list', couresData);
     } catch (error) {
         sendError(res, 0, error.message)
     }
@@ -41,7 +41,7 @@ exports.couresOneData = async (req, res) => {
     try {
         const couresData = await coures.findById(req.body.Id);
 
-        sendResponse(res, 1, 'coures list', couresData);
+        sendResponse(res, 1, 'Coures list', couresData);
     } catch (error) {
         sendError(res, 0, error.message)
     }

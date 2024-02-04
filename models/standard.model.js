@@ -11,6 +11,10 @@ const standardSchema = new Schema({
         type: String,
         default: null
     },
+    couresId: {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'coures'
+    },
     isAvailable: {
         type: Boolean,
         default: true
@@ -24,6 +28,7 @@ function validationStandard(req) {
     const Schema = Joi.object({
         standardName: Joi.string().required(),
         educationYear: Joi.string().required(),
+        couresId : Joi.string().hex().length(24),
         isAvailable: Joi.boolean().default(true)
     });
     return Schema.validate(req);

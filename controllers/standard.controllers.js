@@ -7,7 +7,7 @@ const { sendError, sendResponse } = require('../utils/response');
 // add standard or edit standard
 exports.addStandard = async (req, res) => {
     try {
-        if (req.body._id) {
+        if (req.body.Id) {
             const editStandard = await standard.findByIdAndUpdate(req.body.Id, { ...req.body }, { new: true });
 
             sendResponse(res, 1, ' Standard edit successfully', editStandard);
