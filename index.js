@@ -9,6 +9,7 @@ const standard = require('./routes/standard.routes');
 const division = require('./routes/division.routes');
 const homework = require('./routes/homework.routes');
 const event = require('./routes/event.routes');
+const coures = require('./routes/coures.routes');
 
 app.get('/', (req, res) => {
     res.send('Student Attendance System');
@@ -24,6 +25,7 @@ app.use('/standard', standard);
 app.use('/division',division);
 app.use('/homework',homework);
 app.use('/event',event);
+app.use('/coures',coures);
 
 const port = 8000;
 const hostname = '127.0.0.1'
