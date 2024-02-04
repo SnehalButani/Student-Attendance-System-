@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Joi = require('joi');
 
-const standardSchema = new Schema({
-    standardName: {
+const couresSchema = new Schema({
+    couresName: {
         type: String,
         default:null
     },
@@ -17,17 +17,17 @@ const standardSchema = new Schema({
     }
 }, { timestamps: true });
 
-const standard = mongoose.model('standard', standardSchema);
+const coures = mongoose.model('coures', couresSchema);
 
 
-function validationStandard(req) {
+function validationCoures(req) {
     const Schema = Joi.object({
-        standardName: Joi.string().required(),
+        couresName: Joi.string().required(),
         educationYear: Joi.string().required(),
         isAvailable: Joi.boolean().default(true)
     });
     return Schema.validate(req);
 }
 
-exports.standard = standard;
-exports.validationStandard = validationStandard;
+exports.coures = coures;
+exports.validationCoures = validationCoures;

@@ -37,7 +37,6 @@ exports.standardList = async (req, res) => {
     }
 }
 
-
 //  standard Object on id
 exports.standardOneData = async (req, res) => {
     try {

@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { addStandard, editStandard, standardList, standardOneData, standardDelete } = require('../controllers/standard.controllers');
+const { addStandard,  standardList, standardOneData, standardDelete } = require('../controllers/standard.controllers');
 
 router.post('/addstandard', addStandard); // edit or add
 router.post('/standardlist', standardList);
